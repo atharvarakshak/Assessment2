@@ -1,23 +1,67 @@
 import type React from 'react';
 import { useNavigation } from '@react-navigation/native'; 
-import { View, Text, TextInput, ScrollView, TouchableOpacity, Image, StyleSheet } from 'react-native';
+import { View, Text, TextInput, ScrollView, TouchableOpacity, Image, StyleSheet, FlatList } from 'react-native';
 import { FontAwesome, MaterialIcons } from '@expo/vector-icons';
 
+// Define the array of shoes
+const shoes = [
+  {
+    id: '1',
+    name: 'Air Legging Sport',
+    category: 'Apparel',
+    price: 'Rp200.000',
+    imageUrl: '../../assets/images/shoe1.png', // Replace with actual image path
+  },
+  {
+    id: '2',
+    name: 'Aero Sport Infinity Max',
+    category: 'Footwear',
+    price: 'Rp450.000',
+    imageUrl: '../../assets/images/shoe2.png', // Replace with actual image path
+  },
+  {
+    id: '3',
+    name: 'Sport Runner Blue Edition',
+    category: 'Footwear',
+    price: 'Rp250.000',
+    imageUrl: '../../assets/images/shoe3.png', // Replace with actual image path
+  },
+  {
+    id: '4',
+    name: 'Sport Bag',
+    category: 'Bag',
+    price: 'Rp350.000',
+    imageUrl: '../../assets/images/shoe4.png', // Replace with actual image path
+  },
+];
+
 const HomeScreen: React.FC = () => {
-  
   const navigation = useNavigation();
+
+  // Render individual product item
+  interface Shoe {
+    id: string;
+    name: string;
+    category: string;
+    price: string;
+    imageUrl: string;
+  }
+
+  const renderProductItem = ({ item }: { item: Shoe }) => (
+    <View style={styles.productItem}>
+      <Image source={{ uri: item.imageUrl }} style={styles.productImage} />
+      <Text>{item.name}</Text>
+      <Text style={styles.productCategory}>{item.category}</Text>
+      <Text style={styles.productPrice}>{item.price}</Text>
+    </View>
+  );
+
   return (
     <View style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollContent}>
-        {/* Header */}
-      
-
         {/* Search bar */}
         <View style={styles.searchContainer}>
-          <TextInput
-            placeholder="Search Items"
-            style={styles.searchInput}
-          />
+          <TextInput placeholder="Search Items" style={styles.searchInput} />
           <TouchableOpacity style={styles.searchButton}>
             <FontAwesome name="search" size={20} color="white" />
           </TouchableOpacity>
@@ -40,10 +84,7 @@ const HomeScreen: React.FC = () => {
 
         {/* Banners */}
         <View style={styles.bannerContainer}>
-          <Image
-            source={{ uri: '../../assets/images/banner.png' }} // replace with your banner image URL
-            style={styles.banner}
-          />
+          <Image source={{ uri: '../../assets/images/banner.png' }} style={styles.banner} />
         </View>
 
         {/* Shop by Category */}
@@ -62,61 +103,26 @@ const HomeScreen: React.FC = () => {
 
         {/* For You Section */}
         <Text style={styles.sectionTitle}>For You</Text>
-        <View style={styles.productGrid}>
-          <View style={styles.productItem}>
-            <Image
-              source={{ uri: '../../assets/images/shoe1.png' }} // replace with product image
-              style={styles.productImage}
-            />
-            <Text>Air Legging Sport</Text>
-            <Text style={styles.productCategory}>Apparel</Text>
-            <Text style={styles.productPrice}>Rp200.000</Text>
-          </View>
-
-          <View style={styles.productItem}>
-            <Image
-              source={{ uri: '../../assets/images/shoe2.png' }} // replace with product image
-              style={styles.productImage}
-            />
-            <Text>Aero Sport Infinity Max</Text>
-            <Text style={styles.productCategory}>Footwear</Text>
-            <Text style={styles.productPrice}>Rp450.000</Text>
-          </View>
-
-          <View style={styles.productItem}>
-            <Image
-              source={{ uri: '../../assets/images/shoe3.png' }} // replace with product image
-              style={styles.productImage}
-            />
-            <Text>Sport Runner Blue Edition</Text>
-            <Text style={styles.productCategory}>Footwear</Text>
-            <Text style={styles.productPrice}>Rp250.000</Text>
-          </View>
-
-          <View style={styles.productItem}>
-            <Image
-              source={{ uri: '../../assets/images/shoe4.png' }} // replace with product image
-              style={styles.productImage}
-            />
-            <Text>Sport Bag</Text>
-            <Text style={styles.productCategory}>Bag</Text>
-            <Text style={styles.productPrice}>Rp350.000</Text>
-          </View>
-        </View>
+        <FlatList
+          data={shoes}
+          renderItem={renderProductItem}
+          keyExtractor={(item) => item.id}
+          numColumns={2}
+          columnWrapperStyle={styles.productGrid}
+        />
       </ScrollView>
 
       {/* Bottom Navigation */}
       <View style={styles.bottomNav}>
-        <TouchableOpacity style={styles.navItem} onPress={() => navigation.navigate(  '')}>
+        <TouchableOpacity style={styles.navItem} onPress={() => navigation.navigate('')}>
           <FontAwesome name="home" size={24} color="black" />
         </TouchableOpacity>
         <TouchableOpacity style={styles.navItem} onPress={() => navigation.navigate('wishlist')}>
           <FontAwesome name="shopping-bag" size={24} color="black" />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.navItem}  onPress={() => navigation.navigate('notification')}>
+        <TouchableOpacity style={styles.navItem} onPress={() => navigation.navigate('notification')}>
           <FontAwesome name="user" size={24} color="black" />
         </TouchableOpacity>
-       
       </View>
     </View>
   );
@@ -128,23 +134,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#f9f9f9',
   },
   scrollContent: {
-    paddingBottom: 100, // Extra space for scrolling past bottom navbar
-  },
-  headerContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    padding: 20,
-  },
-  logoText: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: 'orange',
-  },
-  headerIcons: {
-    flexDirection: 'row',
-  },
-  icon: {
-    marginLeft: 20,
+    paddingBottom: 100,
   },
   searchContainer: {
     flexDirection: 'row',
@@ -228,9 +218,8 @@ const styles = StyleSheet.create({
   },
   productGrid: {
     flexDirection: 'row',
-    flexWrap: 'wrap',
     justifyContent: 'space-between',
-    paddingHorizontal: 20,
+    marginHorizontal: 20,
   },
   productItem: {
     width: '47%',

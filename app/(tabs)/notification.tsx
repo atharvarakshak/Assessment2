@@ -10,6 +10,7 @@ interface NotificationItem {
   date: string;
 }
 
+// Sample data for notifications
 const notifications: NotificationItem[] = [
   {
     id: '1',
@@ -38,7 +39,9 @@ const notifications: NotificationItem[] = [
 ];
 
 export default function NotificationsScreen() {
-    const navigation = useNavigation();
+  const navigation = useNavigation();
+
+  // Function to render each notification item
   const renderNotification = ({ item }: { item: NotificationItem }) => (
     <View style={styles.notificationContainer}>
       <Text style={styles.date}>{item.date}</Text>
@@ -49,34 +52,37 @@ export default function NotificationsScreen() {
 
   return (
     <SafeAreaView style={styles.container}>
+      {/* Header */}
       <View style={styles.header}>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
           <Ionicons name="arrow-back" size={24} color="black" />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>Notification</Text>
+        <Text style={styles.headerTitle}>Notifications</Text>
         <TouchableOpacity>
           <Text style={styles.markAsRead}>Mark as read</Text>
         </TouchableOpacity>
       </View>
 
+      {/* FlatList to display notifications */}
       <FlatList
         data={notifications}
         renderItem={renderNotification}
         keyExtractor={(item) => item.id}
         style={styles.notificationList}
+        contentContainerStyle={styles.scrollContent} // For extra padding at the bottom
       />
 
-<View style={styles.bottomNav}>
-        <TouchableOpacity style={styles.navItem} onPress={() => navigation.navigate('')}>
+      {/* Bottom Navigation */}
+      <View style={styles.bottomNav}>
+        <TouchableOpacity style={styles.navItem} onPress={() => navigation.navigate('index')}>
           <FontAwesome name="home" size={24} color="black" />
         </TouchableOpacity>
         <TouchableOpacity style={styles.navItem} onPress={() => navigation.navigate('wishlist')}>
           <FontAwesome name="shopping-bag" size={24} color="black" />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.navItem}  onPress={() => navigation.navigate('notification')}>
+        <TouchableOpacity style={styles.navItem} onPress={() => navigation.navigate('notification')}>
           <FontAwesome name="user" size={24} color="black" />
         </TouchableOpacity>
-       
       </View>
     </SafeAreaView>
   );
@@ -106,13 +112,8 @@ const styles = StyleSheet.create({
   notificationList: {
     marginTop: 10,
   },
-  bottomNav: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    padding: 10,
-    backgroundColor: '#fff',
-    borderTopWidth: 1,
-    borderTopColor: '#ccc',
+  scrollContent: {
+    paddingBottom: 100, // Extra padding for scrolling past bottom navbar
   },
   notificationContainer: {
     padding: 16,
@@ -133,135 +134,7 @@ const styles = StyleSheet.create({
     color: '#555',
     marginTop: 5,
   },
- 
-  scrollContent: {
-    paddingBottom: 100, // Extra space for scrolling past bottom navbar
-  },
-  headerContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    padding: 20,
-  },
-  logoText: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: 'orange',
-  },
-  headerIcons: {
-    flexDirection: 'row',
-  },
-  icon: {
-    marginLeft: 20,
-  },
-  searchContainer: {
-    flexDirection: 'row',
-    paddingHorizontal: 20,
-    marginBottom: 10,
-  },
-  searchInput: {
-    flex: 1,
-    borderWidth: 1,
-    borderColor: '#ccc',
-    padding: 10,
-    borderRadius: 10,
-  },
-  searchButton: {
-    backgroundColor: 'orange',
-    padding: 12,
-    borderRadius: 10,
-    marginLeft: 10,
-  },
-  balanceContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    paddingHorizontal: 20,
-    marginBottom: 10,
-  },
-  balanceItem: {
-    backgroundColor: '#fff',
-    padding: 15,
-    borderRadius: 10,
-    width: '48%',
-    justifyContent: 'center',
-  },
-  balanceLabel: {
-    fontSize: 12,
-    color: '#666',
-  },
-  balanceAmount: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: '#333',
-  },
-  topUpContainer: {
-    backgroundColor: '#fff',
-    padding: 15,
-    borderRadius: 10,
-    width: '48%',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  topUpButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  bannerContainer: {
-    paddingHorizontal: 20,
-    marginBottom: 10,
-  },
-  banner: {
-    width: '100%',
-    height: 100,
-    borderRadius: 10,
-  },
-  sectionTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    paddingHorizontal: 20,
-    marginBottom: 10,
-  },
-  categoryContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    paddingHorizontal: 20,
-    marginBottom: 10,
-  },
-  categoryItem: {
-    backgroundColor: '#fff',
-    padding: 15,
-    borderRadius: 10,
-    width: '30%',
-    alignItems: 'center',
-  },
-  productGrid: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'space-between',
-    paddingHorizontal: 20,
-  },
-  productItem: {
-    width: '47%',
-    backgroundColor: '#fff',
-    padding: 15,
-    borderRadius: 10,
-    marginBottom: 10,
-  },
-  productImage: {
-    width: '100%',
-    height: 150,
-    borderRadius: 10,
-    marginBottom: 10,
-  },
-  productCategory: {
-    fontSize: 12,
-    color: '#666',
-  },
-  productPrice: {
-    fontSize: 14,
-    fontWeight: 'bold',
-    color: 'orange',
-  },
-  Nav: {
+  bottomNav: {
     flexDirection: 'row',
     justifyContent: 'space-around',
     padding: 10,

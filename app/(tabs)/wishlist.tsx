@@ -1,41 +1,52 @@
 import type React from 'react';
-import { View, Text, Image, ScrollView, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, Image, FlatList, TouchableOpacity, StyleSheet } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 import { useNavigation } from 'expo-router';
 
 const WishlistScreen: React.FC = () => {
-    const navigation = useNavigation();
+  const navigation = useNavigation();
+
   // Sample data for wishlist items (you can replace this with your actual data)
   const wishlistItems = [
     {
-      id: 1,
+      id: '1',
       name: 'AERO SPORT INFINITY PRO',
       category: 'Footwear',
       price: 'Rp400.000',
       image: require('../../assets/images/shoe1.png'), // Replace with your image source
     },
     {
-      id: 2,
+      id: '2',
       name: 'SPORT - INVINCIBLE PRO',
       category: 'Footwear',
       price: 'Rp389.000',
       image: require('../../assets/images/shoe2.png'), // Replace with your image source
     },
     {
-      id: 3,
+      id: '3',
       name: 'SPORT SNEAKERS - BLUE',
       category: 'Footwear',
       price: 'Rp200.000',
       image: require('../../assets/images/shoe3.png'), // Replace with your image source
     },
     {
-      id: 4,
+      id: '4',
       name: 'SPORT - INVINCIBLE MAX',
       category: 'Footwear',
       price: 'Rp399.000',
       image: require('../../assets/images/shoe4.png'), // Replace with your image source
     },
   ];
+
+  // Render each wishlist item
+  const renderWishlistItem = ({ item }) => (
+    <View style={styles.wishlistItem}>
+      <Image source={item.image} style={styles.image} />
+      <Text style={styles.itemName}>{item.name}</Text>
+      <Text style={styles.itemCategory}>{item.category}</Text>
+      <Text style={styles.itemPrice}>{item.price}</Text>
+    </View>
+  );
 
   return (
     <View style={styles.container}>
@@ -55,19 +66,17 @@ const WishlistScreen: React.FC = () => {
         </View>
       </View>
 
-      {/* Scrollable Wishlist Grid */}
-      <ScrollView contentContainerStyle={styles.grid}>
-        {wishlistItems.map((item) => (
-          <View key={item.id} style={styles.wishlistItem}>
-            <Image source={item.image} style={styles.image} />
-            <Text style={styles.itemName}>{item.name}</Text>
-            <Text style={styles.itemCategory}>{item.category}</Text>
-            <Text style={styles.itemPrice}>{item.price}</Text>
-          </View>
-        ))}
-      </ScrollView>
+      {/* FlatList for rendering wishlist items */}
+      <FlatList
+        data={wishlistItems}
+        keyExtractor={(item) => item.id}
+        renderItem={renderWishlistItem}
+        numColumns={2} // Number of columns for grid layout
+        columnWrapperStyle={styles.grid} // Apply styles to each row
+        contentContainerStyle={styles.gridContent} // Style for the grid container
+      />
 
-
+      {/* Bottom Navigation */}
       <View style={styles.bottomNav}>
         <TouchableOpacity style={styles.navItem} onPress={() => navigation.navigate('')}>
           <FontAwesome name="home" size={24} color="black" />
@@ -75,13 +84,10 @@ const WishlistScreen: React.FC = () => {
         <TouchableOpacity style={styles.navItem} onPress={() => navigation.navigate('wishlist')}>
           <FontAwesome name="shopping-bag" size={24} color="black" />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.navItem}  onPress={() => navigation.navigate('notification')}>
+        <TouchableOpacity style={styles.navItem} onPress={() => navigation.navigate('notification')}>
           <FontAwesome name="user" size={24} color="black" />
         </TouchableOpacity>
-       
       </View>
-
-      
     </View>
   );
 };
@@ -119,13 +125,13 @@ const styles = StyleSheet.create({
     marginLeft: 15,
   },
   grid: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
     justifyContent: 'space-between',
-    padding: 15,
+  },
+  gridContent: {
+    paddingHorizontal: 15,
   },
   wishlistItem: {
-    width: '48%',
+    width: '48%', // To create space for 2 items per row
     backgroundColor: '#fff',
     borderRadius: 10,
     marginBottom: 15,
@@ -150,14 +156,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: 'orange',
     marginTop: 5,
-  },
-  Nav: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    padding: 10,
-    backgroundColor: '#fff',
-    borderTopWidth: 1,
-    borderTopColor: '#ccc',
   },
   navItem: {
     alignItems: 'center',
