@@ -1,70 +1,270 @@
-import { Image, StyleSheet, Platform } from 'react-native';
+import type React from 'react';
+import { useNavigation } from '@react-navigation/native'; 
+import { View, Text, TextInput, ScrollView, TouchableOpacity, Image, StyleSheet } from 'react-native';
+import { FontAwesome, MaterialIcons } from '@expo/vector-icons';
 
-import { HelloWave } from '@/components/HelloWave';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
-
-export default function HomeScreen() {
+const HomeScreen: React.FC = () => {
+  
+  const navigation = useNavigation();
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({ ios: 'cmd + d', android: 'cmd + m' })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-        <ThemedText>
-          Tap the Explore tab to learn more about what's included in this starter app.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          When you're ready, run{' '}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
+    <View style={styles.container}>
+      <ScrollView contentContainerStyle={styles.scrollContent}>
+        {/* Header */}
+      
+
+        {/* Search bar */}
+        <View style={styles.searchContainer}>
+          <TextInput
+            placeholder="Search Items"
+            style={styles.searchInput}
+          />
+          <TouchableOpacity style={styles.searchButton}>
+            <FontAwesome name="search" size={20} color="white" />
+          </TouchableOpacity>
+        </View>
+
+        {/* Wallet balance and top-up */}
+        <View style={styles.balanceContainer}>
+          <View style={styles.balanceItem}>
+            <Text style={styles.balanceLabel}>Wallet balance</Text>
+            <Text style={styles.balanceAmount}>Rp1.000.000</Text>
+          </View>
+          <View style={styles.topUpContainer}>
+            <Text style={styles.balanceLabel}>Top up balance</Text>
+            <TouchableOpacity style={styles.topUpButton}>
+              <MaterialIcons name="payment" size={24} color="black" />
+              <Text>Top up</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+
+        {/* Banners */}
+        <View style={styles.bannerContainer}>
+          <Image
+            source={{ uri: '../../assets/images/banner.png' }} // replace with your banner image URL
+            style={styles.banner}
+          />
+        </View>
+
+        {/* Shop by Category */}
+        <Text style={styles.sectionTitle}>Shop by Category</Text>
+        <View style={styles.categoryContainer}>
+          <TouchableOpacity style={styles.categoryItem}>
+            <Text>FOOTWEAR</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.categoryItem}>
+            <Text>BAGS</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.categoryItem}>
+            <Text>APPAREL</Text>
+          </TouchableOpacity>
+        </View>
+
+        {/* For You Section */}
+        <Text style={styles.sectionTitle}>For You</Text>
+        <View style={styles.productGrid}>
+          <View style={styles.productItem}>
+            <Image
+              source={{ uri: '../../assets/images/shoe1.png' }} // replace with product image
+              style={styles.productImage}
+            />
+            <Text>Air Legging Sport</Text>
+            <Text style={styles.productCategory}>Apparel</Text>
+            <Text style={styles.productPrice}>Rp200.000</Text>
+          </View>
+
+          <View style={styles.productItem}>
+            <Image
+              source={{ uri: '../../assets/images/shoe2.png' }} // replace with product image
+              style={styles.productImage}
+            />
+            <Text>Aero Sport Infinity Max</Text>
+            <Text style={styles.productCategory}>Footwear</Text>
+            <Text style={styles.productPrice}>Rp450.000</Text>
+          </View>
+
+          <View style={styles.productItem}>
+            <Image
+              source={{ uri: '../../assets/images/shoe3.png' }} // replace with product image
+              style={styles.productImage}
+            />
+            <Text>Sport Runner Blue Edition</Text>
+            <Text style={styles.productCategory}>Footwear</Text>
+            <Text style={styles.productPrice}>Rp250.000</Text>
+          </View>
+
+          <View style={styles.productItem}>
+            <Image
+              source={{ uri: '../../assets/images/shoe4.png' }} // replace with product image
+              style={styles.productImage}
+            />
+            <Text>Sport Bag</Text>
+            <Text style={styles.productCategory}>Bag</Text>
+            <Text style={styles.productPrice}>Rp350.000</Text>
+          </View>
+        </View>
+      </ScrollView>
+
+      {/* Bottom Navigation */}
+      <View style={styles.bottomNav}>
+        <TouchableOpacity style={styles.navItem} onPress={() => navigation.navigate(  '')}>
+          <FontAwesome name="home" size={24} color="black" />
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.navItem} onPress={() => navigation.navigate('wishlist')}>
+          <FontAwesome name="shopping-bag" size={24} color="black" />
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.navItem}  onPress={() => navigation.navigate('notification')}>
+          <FontAwesome name="user" size={24} color="black" />
+        </TouchableOpacity>
+       
+      </View>
+    </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
-  titleContainer: {
+  container: {
+    flex: 1,
+    backgroundColor: '#f9f9f9',
+  },
+  scrollContent: {
+    paddingBottom: 100, // Extra space for scrolling past bottom navbar
+  },
+  headerContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    padding: 20,
+  },
+  logoText: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: 'orange',
+  },
+  headerIcons: {
+    flexDirection: 'row',
+  },
+  icon: {
+    marginLeft: 20,
+  },
+  searchContainer: {
+    flexDirection: 'row',
+    paddingHorizontal: 20,
+    marginBottom: 10,
+  },
+  searchInput: {
+    flex: 1,
+    borderWidth: 1,
+    borderColor: '#ccc',
+    padding: 10,
+    borderRadius: 10,
+  },
+  searchButton: {
+    backgroundColor: 'orange',
+    padding: 12,
+    borderRadius: 10,
+    marginLeft: 10,
+  },
+  balanceContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingHorizontal: 20,
+    marginBottom: 10,
+  },
+  balanceItem: {
+    backgroundColor: '#fff',
+    padding: 15,
+    borderRadius: 10,
+    width: '48%',
+    justifyContent: 'center',
+  },
+  balanceLabel: {
+    fontSize: 12,
+    color: '#666',
+  },
+  balanceAmount: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#333',
+  },
+  topUpContainer: {
+    backgroundColor: '#fff',
+    padding: 15,
+    borderRadius: 10,
+    width: '48%',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  topUpButton: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 8,
   },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
+  bannerContainer: {
+    paddingHorizontal: 20,
+    marginBottom: 10,
   },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
+  banner: {
+    width: '100%',
+    height: 100,
+    borderRadius: 10,
+  },
+  sectionTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    paddingHorizontal: 20,
+    marginBottom: 10,
+  },
+  categoryContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingHorizontal: 20,
+    marginBottom: 10,
+  },
+  categoryItem: {
+    backgroundColor: '#fff',
+    padding: 15,
+    borderRadius: 10,
+    width: '30%',
+    alignItems: 'center',
+  },
+  productGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+    paddingHorizontal: 20,
+  },
+  productItem: {
+    width: '47%',
+    backgroundColor: '#fff',
+    padding: 15,
+    borderRadius: 10,
+    marginBottom: 10,
+  },
+  productImage: {
+    width: '100%',
+    height: 150,
+    borderRadius: 10,
+    marginBottom: 10,
+  },
+  productCategory: {
+    fontSize: 12,
+    color: '#666',
+  },
+  productPrice: {
+    fontSize: 14,
+    fontWeight: 'bold',
+    color: 'orange',
+  },
+  bottomNav: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    padding: 10,
+    backgroundColor: '#fff',
+    borderTopWidth: 1,
+    borderTopColor: '#ccc',
+  },
+  navItem: {
+    alignItems: 'center',
   },
 });
+
+export default HomeScreen;
