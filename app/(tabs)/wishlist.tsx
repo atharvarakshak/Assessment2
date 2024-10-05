@@ -39,7 +39,7 @@ const WishlistScreen: React.FC = () => {
   ];
 
   // Render each wishlist item
-  const renderWishlistItem = ({ item }) => (
+  const renderWishlistItem = ({ item }: { item: { id: string; name: string; category: string; price: string; image: any } }) => (
     <View style={styles.wishlistItem}>
       <Image source={item.image} style={styles.image} />
       <Text style={styles.itemName}>{item.name}</Text>
@@ -78,7 +78,7 @@ const WishlistScreen: React.FC = () => {
 
       {/* Bottom Navigation */}
       <View style={styles.bottomNav}>
-        <TouchableOpacity style={styles.navItem} onPress={() => navigation.navigate('')}>
+        <TouchableOpacity style={styles.navItem} onPress={() => navigation.navigate('index')}>
           <FontAwesome name="home" size={24} color="black" />
         </TouchableOpacity>
         <TouchableOpacity style={styles.navItem} onPress={() => navigation.navigate('wishlist')}>
